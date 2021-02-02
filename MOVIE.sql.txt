@@ -1,0 +1,98 @@
+CREATE TABLE [MOVIE] (
+  [id] int PRIMARY KEY IDENTITY(1, 1),
+  [m_title] nvarchar(255),
+  [m_year] year,
+  [m_length] float,
+  [m_plot] text
+)
+GO
+
+CREATE TABLE [PERSON] (
+  [id] int PRIMARY KEY IDENTITY(1, 1),
+  [name] nvarchar(255),
+  [date_of_birth] date
+)
+GO
+
+CREATE TABLE [PRODACION_COMPANY] (
+  [id] int PRIMARY KEY IDENTITY(1, 1),
+  [name] nvarchar(255),
+  [address] nvarchar(255)
+)
+GO
+
+CREATE TABLE [GENRE] (
+  [id] int PRIMARY KEY IDENTITY(1, 1),
+  [genre] nvarchar(255)
+)
+GO
+
+CREATE TABLE [QUOTE] (
+  [id] int PRIMARY KEY IDENTITY(1, 1),
+  [quote] text,
+  [person] int
+)
+GO
+
+CREATE TABLE [_DIRECTS] (
+  [id] int PRIMARY KEY IDENTITY(1, 1),
+  [person_id] int,
+  [movie_id] int
+)
+GO
+
+CREATE TABLE [_PLAYS_AT] (
+  [id] int PRIMARY KEY IDENTITY(1, 1),
+  [person_id] int,
+  [movie_id] int
+)
+GO
+
+CREATE TABLE [_TELLS] (
+  [person_id] int,
+  [quate_id] int
+)
+GO
+
+CREATE TABLE [_IS_GANRE] (
+  [id] int,
+  [genre_id] int,
+  [movie_id] int
+)
+GO
+
+CREATE TABLE [_IS_FILMED_AT] (
+  [movie_id] int,
+  [production_company_id] int
+)
+GO
+
+ALTER TABLE [PERSON] ADD FOREIGN KEY ([id]) REFERENCES [_DIRECTS] ([person_id])
+GO
+
+ALTER TABLE [MOVIE] ADD FOREIGN KEY ([id]) REFERENCES [_DIRECTS] ([movie_id])
+GO
+
+ALTER TABLE [PERSON] ADD FOREIGN KEY ([id]) REFERENCES [_PLAYS_AT] ([person_id])
+GO
+
+ALTER TABLE [MOVIE] ADD FOREIGN KEY ([id]) REFERENCES [_PLAYS_AT] ([movie_id])
+GO
+
+ALTER TABLE [PERSON] ADD FOREIGN KEY ([id]) REFERENCES [_TELLS] ([person_id])
+GO
+
+ALTER TABLE [QUOTE] ADD FOREIGN KEY ([id]) REFERENCES [_TELLS] ([quate_id])
+GO
+
+ALTER TABLE [MOVIE] ADD FOREIGN KEY ([id]) REFERENCES [_IS_GANRE] ([movie_id])
+GO
+
+ALTER TABLE [GENRE] ADD FOREIGN KEY ([id]) REFERENCES [_IS_GANRE] ([genre_id])
+GO
+
+ALTER TABLE [MOVIE] ADD FOREIGN KEY ([id]) REFERENCES [_IS_FILMED_AT] ([movie_id])
+GO
+
+ALTER TABLE [PRODACION_COMPANY] ADD FOREIGN KEY ([id]) REFERENCES [_IS_FILMED_AT] ([production_company_id])
+GO
